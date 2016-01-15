@@ -1,5 +1,7 @@
 # oig-dr
 
+[![Build Status](https://travis-ci.org/shock01/oig-dr.svg?branch=master)](https://travis-ci.org/shock01/oig-dr)
+
 ## Info
 
 OIG DomRenderer updates a target DOMElement with the contents of a DOMElement or HTMLString
