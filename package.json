@@ -1,0 +1,24 @@
+{
+  "name": "oig-dr",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test-server": "node test-runner/runner.js",
+    "test": "mocha-phantomjs test-runner/public/index.html"
+  },
+  "author": "Stef Hock (spwhock@gmail.com)",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/shock01/oig-dr.git"
+  },
+  "devDependencies": {
+    "chai": "^3.4.1",
+    "connect": "^3.4.0",
+    "livereload": "^0.4.0",
+    "mocha": "^2.3.4",
+    "mocha-phantomjs": "^4.0.2",
+    "serve-static": "^1.10.0"
+  }
+}
