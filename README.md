@@ -16,9 +16,15 @@ NB. is it finished??? Nah...i just started :-) But most of it works....
 
 ## To run
 
-use: npm run test-server to start a server on localhost:3000 that will run the mocha spec
-use: npm test to run headless tests using mocha-phantomjs
+- use: npm run test-server to start a server on localhost:3000 that will run the mocha spec
+- use: npm test to run headless tests using mocha-phantomjs
 
+## Rendering Performance / Example
+
+Changes an SVG into the glorious SVG tiger in approx 5 milliseconds
+
+- use npm run test-server
+- open browser http://localhost:3000/performance.html
 
 ## API
 ```

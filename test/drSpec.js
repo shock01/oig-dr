@@ -29,6 +29,15 @@ describe('test', function() {
         domRenderer.render(document.createElement('div'), document.createElement('span'));
       }).to.throw('[oig-dr].render source and target should be same element');
     });
+    it('should return the same element when first element is textnode', function() {
+      source.appendChild(document.createElement('div'));
+      var textNode = document.createTextNode('test');
+      textNode.nodeValue = '123';
+      source.firstChild.appendChild(textNode);
+      source.firstChild.appendChild(document.createElement('div'));
+      var result = domRenderer.render(source, target);
+      expect(target).to.equal(result);
+    });
     it('should return the same element', function() {
       var result = domRenderer.render(source, target);
       expect(target).to.equal(result);
