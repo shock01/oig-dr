@@ -1,5 +1,6 @@
 // static server
 var connect = require('connect');
+var http = require('http');
 var static = require('serve-static');
 var server = connect();
 
@@ -10,7 +11,8 @@ server.use(static(__dirname + '/public'));
 server.use('/node_modules', static(__dirname + '/../node_modules'));
 server.use('/lib', static(libDir));
 server.use('/test', static(testDir));
-server.listen(3000, function() {
+
+http.createServer(server).listen(3000, function() {
   console.log('server running on port 3000')
 });
 
