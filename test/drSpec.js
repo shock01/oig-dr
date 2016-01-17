@@ -4,6 +4,7 @@
 // TODO element namespaces (SVG)
 // TODO maintain / preserve handlers (removeall / replace might break javascript handlers)
 describe('OIGDomRenderer', function() {
+  'use strict';
   var expect = chai.expect;
   var domRenderer;
 
@@ -35,11 +36,6 @@ describe('OIGDomRenderer', function() {
     console.groupEnd();
   });
 
-  it('should throw when target and source are different nodes', function() {
-    expect(function() {
-      domRenderer.render(document.createElement('div'), document.createElement('span'));
-    }).to.throw('[oig-dr].render source and target should be same element');
-  });
   it('should return the same element when first element is textnode', function() {
     source.appendChild(document.createElement('div'));
     var textNode = document.createTextNode('test');

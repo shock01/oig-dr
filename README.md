@@ -12,7 +12,6 @@ Is namespace aware so can also be used to render SVG Content or other namespace 
 
 The first element (container element) should be of the same nodeType and nodeName (eg. both HTMLDivElements)
 
-NB. is it finished??? Nah...i just started :-) But most of it works....
 
 ## To run
 
@@ -22,6 +21,8 @@ NB. is it finished??? Nah...i just started :-) But most of it works....
 ## Rendering Performance / Example
 
 Changes an SVG into the glorious SVG tiger in approx 5 milliseconds
+
+Internet Explorer is 2 times slower needing 10ms
 
 - use npm run test-server
 - open browser http://localhost:3000/performance.html
