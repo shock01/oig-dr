@@ -1,53 +1,559 @@
 <!doctype html>
 <html>
-<head>
-  <meta charset="utf-8">
-  <title>Perf Tests</title>
-  <style>
-  body, html {
-    font: 12pt Arial;
-  }
-  </style>
-</head>
-<body>
-  <h1>Morph to a tiger (has issues when having just two childnode)</h1>
-  <h2>tested on Chrome and Firefox and IE 11</h2>
-  <p>After 1 sec the tiger starts to render</p>
-  <output id="time"></output>
-  <svg height="100" width="200" id="svgTiger1">
-    <circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="red" />
-    <circle cx="20" cy="20" r="40" stroke="black" stroke-width="3" fill="green" />
-    <text fill="red" x="80" y="20">Make me a tiger</text>
-  </svg>
-  <hr/>
-  <svg height="100" width="200" id="svgTiger2">
-    <circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="red" />
-    <circle cx="20" cy="20" r="40" stroke="black" stroke-width="3" fill="green" />
-  </svg>
-  <!-- lib -->
-  <script src="../../lib/dr.js"></script>
-  <script>
-  document.addEventListener('DOMContentLoaded', function () {
-    // get the tiger
-    var xhr = new XMLHttpRequest();
-    var source;
-    xhr.open('GET', 'fixtures/tiger.svg', true);
-    xhr.onload = function() {
-      var renderer = new OIGDomRenderer();
-      source = xhr.responseXML.documentElement;
-      // render tigers
-      setTimeout(function () {
-        var start = window.performance.now();
-        renderer.render(source, document.getElementById('svgTiger1'));
-        var end = window.performance.now();
-        var text = 'rendering took: ' + (end - start).toFixed(4) + 'milliseconds';
-        document.getElementById('time').textContent = text;
-        renderer.render(source, document.getElementById('svgTiger2'));
-      }, 1000);
-    }
-    xhr.send();
-    // worldmap
-  }, false)
-  </script>
-</body>
+   <head>
+      <meta charset="utf-8">
+      <title>Perf Tests</title>
+      <style>
+         body, html {
+         font: 12pt Arial;
+         }
+      </style>
+   </head>
+   <body>
+      <h1>Morph to a tiger (has issues when having just two childnode)</h1>
+      <h2>tested on Chrome and Firefox and IE 11</h2>
+      <p>After 1 sec the tiger starts to render</p>
+      <output id="tigerTimer"></output>
+      <svg height="100" width="200" id="svgTiger1">
+         <circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="red" />
+         <circle cx="20" cy="20" r="40" stroke="black" stroke-width="3" fill="green" />
+         <text fill="red" x="80" y="20">Make me a tiger</text>
+      </svg>
+      <hr/>
+      <svg height="100" width="200" id="svgTiger2">
+         <circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="red" />
+         <circle cx="20" cy="20" r="40" stroke="black" stroke-width="3" fill="green" />
+      </svg>
+      <hr/>
+      <output id="countriesTimer"></output>
+      <div id="countriesTarget">
+         <ul>
+            <li value="VIR">Virgin Islands, U.S.</li>
+            <li value="WLF">Wallis and Futunaaaaaaa</li>
+            <li value="ESH">Western Sahara</li>
+            <li value="AFG">Afghanistan</li>
+            <li value="ALA">Åland Islands</li>
+            <li value="ALB">Albania</li>
+            <li value="DZA">Algeria</li>
+            <li value="ASM">American Samoa</li>
+            <li value="AND">Andorra</li>
+            <li value="AGO">Angola</li>
+            <li value="AIA">Anguilla</li>
+            <li value="ATA">Antarctica</li>
+            <li value="ATG">Antigua and Barbuda</li>
+            <li value="ARG">Argentina</li>
+            <li value="ARM">Armenia</li>
+            <li value="ABW">Aruba</li>
+            <li value="AUS">Australia</li>
+            <li value="AUT">Austria</li>
+            <li value="AZE">Azerbaijan</li>
+            <li value="BHS">Bahamas</li>
+            <li value="BHR">Bahrain</li>
+            <li value="BGD">Bangladesh</li>
+            <li value="BRB">Barbados</li>
+            <li value="BLR">Belarus</li>
+            <li value="BEL">Belgium</li>
+            <li value="BLZ">Belize</li>
+            <li value="BEN">Benin</li>
+            <li value="BMU">Bermuda</li>
+            <li value="BTN">Bhutan</li>
+            <li value="BOL">Bolivia, Plurinational State of</li>
+            <li value="BES">Bonaire, Sint Eustatius and Saba</li>
+            <li value="BIH">Bosnia and Herzegovina</li>
+            <li value="BWA">Botswana</li>
+            <li value="BVT">Bouvet Island</li>
+            <li value="BRA">Brazil</li>
+            <li value="IOT">British Indian Ocean Territory</li>
+            <li value="BRN">Brunei Darussalam</li>
+            <li value="BGR">Bulgaria</li>
+            <li value="BFA">Burkina Faso</li>
+            <li value="BDI">Burundi</li>
+            <li value="KHM">Cambodia</li>
+            <li value="CMR">Cameroon</li>
+            <li value="CAN">Canada</li>
+            <li value="CPV">Cape Verde</li>
+            <li value="CYM">Cayman Islands</li>
+            <li value="CAF">Central African Republic</li>
+            <li value="TCD">Chad</li>
+            <li value="CHL">Chile</li>
+            <li value="CHN">China</li>
+            <li value="CXR">Christmas Island</li>
+            <li value="CCK">Cocos (Keeling) Islands</li>
+            <li value="COL">Colombia</li>
+            <li value="COM">Comoros</li>
+            <li value="COG">Congo</li>
+            <li value="COD">Congo, the Democratic Republic of the</li>
+            <li value="COK">Cook Islands</li>
+            <li value="CRI">Costa Rica</li>
+            <li value="CIV">Côte d'Ivoire</li>
+            <li value="HRV">Croatia</li>
+            <li value="CUB">Cuba</li>
+            <li value="CUW">Curaçao</li>
+            <li value="CYP">Cyprus</li>
+            <li value="CZE">Czech Republic</li>
+            <li value="DNK">Denmark</li>
+            <li value="DJI">Djibouti</li>
+            <li value="DMA">Dominica</li>
+            <li value="DOM">Dominican Republic</li>
+            <li value="ECU">Ecuador</li>
+            <li value="EGY">Egypt</li>
+            <li value="SLV">El Salvador</li>
+            <li value="GNQ">Equatorial Guinea</li>
+            <li value="ERI">Eritrea</li>
+            <li value="EST">Estonia</li>
+            <li value="ETH">Ethiopia</li>
+            <li value="FLK">Falkland Islands (Malvinas)</li>
+            <li value="FRO">Faroe Islands</li>
+            <li value="FJI">Fiji</li>
+            <li value="FIN">Finland</li>
+            <li value="FRA">France</li>
+            <li value="GUF">French Guiana</li>
+            <li value="PYF">French Polynesia</li>
+            <li value="ATF">French Southern Territories</li>
+            <li value="GAB">Gabon</li>
+            <li value="GMB">Gambia</li>
+            <li value="GEO">Georgia</li>
+            <li value="DEU">Germany</li>
+            <li value="GHA">Ghana</li>
+            <li value="GIB">Gibraltar</li>
+            <li value="GRC">Greece</li>
+            <li value="GRL">Greenland</li>
+            <li value="GRD">Grenada</li>
+            <li value="GLP">Guadeloupe</li>
+            <li value="GUM">Guam</li>
+            <li value="GTM">Guatemala</li>
+            <li value="GGY">Guernsey</li>
+            <li value="GIN">Guinea</li>
+            <li value="GNB">Guinea-Bissau</li>
+            <li value="GUY">Guyana</li>
+            <li value="HTI">Haiti</li>
+            <li value="HMD">Heard Island and McDonald Islands</li>
+            <li value="VAT">Holy See (Vatican City State)</li>
+            <li value="HND">Honduras</li>
+            <li value="HKG">Hong Kong</li>
+            <li value="HUN">Hungary</li>
+            <li value="ISL">Iceland</li>
+            <li value="IND">India</li>
+            <li value="IDN">Indonesia</li>
+            <li value="IRN">Iran, Islamic Republic of</li>
+            <li value="IRQ">Iraq</li>
+            <li value="IRL">Ireland</li>
+            <li value="IMN">Isle of Man</li>
+            <li value="ISR">Israel</li>
+            <li value="ITA">Italy</li>
+            <li value="JAM">Jamaica</li>
+            <li value="JPN">Japan</li>
+            <li value="JEY">Jersey</li>
+            <li value="JOR">Jordan</li>
+            <li value="KAZ">Kazakhstan</li>
+            <li value="KEN">Kenya</li>
+            <li value="KIR">Kiribati</li>
+            <li value="PRK">Korea, Democratic People's Republic of</li>
+            <li value="KOR">Korea, Republic of</li>
+            <li value="KWT">Kuwait</li>
+            <li value="KGZ">Kyrgyzstan</li>
+            <li value="LAO">Lao People's Democratic Republic</li>
+            <li value="LVA">Latvia</li>
+            <li value="LBN">Lebanon</li>
+            <li value="LSO">Lesotho</li>
+            <li value="LBR">Liberia</li>
+            <li value="LBY">Libya</li>
+            <li value="LIE">Liechtenstein</li>
+            <li value="LTU">Lithuania</li>
+            <li value="LUX">Luxembourg</li>
+            <li value="MAC">Macao</li>
+            <li value="MKD">Macedonia, the former Yugoslav Republic of</li>
+            <li value="MDG">Madagascar</li>
+            <li value="MWI">Malawi</li>
+            <li value="MYS">Malaysia</li>
+            <li value="MDV">Maldives</li>
+            <li value="MLI">Mali</li>
+            <li value="MLT">Malta</li>
+            <li value="MHL">Marshall Islands</li>
+            <li value="MTQ">Martinique</li>
+            <li value="MRT">Mauritania</li>
+            <li value="MUS">Mauritius</li>
+            <li value="MYT">Mayotte</li>
+            <li value="MEX">Mexico</li>
+            <li value="FSM">Micronesia, Federated States of</li>
+            <li value="MDA">Moldova, Republic of</li>
+            <li value="MCO">Monaco</li>
+            <li value="MNG">Mongolia</li>
+            <li value="MNE">Montenegro</li>
+            <li value="MSR">Montserrat</li>
+            <li value="MAR">Morocco</li>
+            <li value="MOZ">Mozambique</li>
+            <li value="MMR">Myanmar</li>
+            <li value="NAM">Namibia</li>
+            <li value="NRU">Nauru</li>
+            <li value="NPL">Nepal</li>
+            <li value="NLD">Netherlands</li>
+            <li value="NCL">New Caledonia</li>
+            <li value="NZL">New Zealand</li>
+            <li value="NIC">Nicaragua</li>
+            <li value="NER">Niger</li>
+            <li value="NGA">Nigeria</li>
+            <li value="NIU">Niue</li>
+            <li value="NFK">Norfolk Island</li>
+            <li value="MNP">Northern Mariana Islands</li>
+            <li value="NOR">Norway</li>
+            <li value="OMN">Oman</li>
+            <li value="PAK">Pakistan</li>
+            <li value="PLW">Palau</li>
+            <li value="PSE">Palestinian Territory, Occupied</li>
+            <li value="PAN">Panama</li>
+            <li value="PNG">Papua New Guinea</li>
+            <li value="PRY">Paraguay</li>
+            <li value="PER">Peru</li>
+            <li value="PHL">Philippines</li>
+            <li value="PCN">Pitcairn</li>
+            <li value="POL">Poland</li>
+            <li value="PRT">Portugal</li>
+            <li value="PRI">Puerto Rico</li>
+            <li value="QAT">Qatar</li>
+            <li value="REU">Réunion</li>
+            <li value="ROU">Romania</li>
+            <li value="RUS">Russian Federation</li>
+            <li value="RWA">Rwanda</li>
+            <li value="BLM">Saint Barthélemy</li>
+            <li value="SHN">Saint Helena, Ascension and Tristan da Cunha</li>
+            <li value="KNA">Saint Kitts and Nevis</li>
+            <li value="LCA">Saint Lucia</li>
+            <li value="MAF">Saint Martin (French part)</li>
+            <li value="SPM">Saint Pierre and Miquelon</li>
+            <li value="VCT">Saint Vincent and the Grenadines</li>
+            <li value="WSM">Samoa</li>
+            <li value="SMR">San Marino</li>
+            <li value="STP">Sao Tome and Principe</li>
+            <li value="SAU">Saudi Arabia</li>
+            <li value="SEN">Senegal</li>
+            <li value="SRB">Serbia</li>
+            <li value="SYC">Seychelles</li>
+            <li value="SLE">Sierra Leone</li>
+            <li value="SGP">Singapore</li>
+            <li value="SXM">Sint Maarten (Dutch part)</li>
+            <li value="SVK">Slovakia</li>
+            <li value="SVN">Slovenia</li>
+            <li value="SLB">Solomon Islands</li>
+            <li value="SOM">Somalia</li>
+            <li value="ZAF">South Africa</li>
+            <li value="SGS">South Georgia and the South Sandwich Islands</li>
+            <li value="SSD">South Sudan</li>
+            <li value="ESP">Spain</li>
+            <li value="LKA">Sri Lanka</li>
+            <li value="SDN">Sudan</li>
+            <li value="SUR">Suriname</li>
+            <li value="SJM">Svalbard and Jan Mayen</li>
+            <li value="SWZ">Swaziland</li>
+            <li value="SWE">Sweden</li>
+            <li value="CHE">Switzerland</li>
+            <li value="SYR">Syrian Arab Republic</li>
+            <li value="TWN">Taiwan, Province of China</li>
+            <li value="TJK">Tajikistan</li>
+            <li value="TZA">Tanzania, United Republic of</li>
+            <li value="THA">Thailand</li>
+            <li value="TLS">Timor-Leste</li>
+            <li value="TGO">Togo</li>
+            <li value="TKL">Tokelau</li>
+            <li value="TON">Tonga</li>
+            <li value="TTO">Trinidad and Tobago</li>
+            <li value="VEN">Venezuela, Bolivarian Republic of</li>
+            <li value="VNM">Viet Nam</li>
+            <li value="VGB">Virgin Islands, British</li>
+            <li value="YEM">Yemen</li>
+            <li value="ZMB">Zambia</li>
+            <li value="ZWE">Zimbabwe</li>
+         </ul>
+      </div>
+      <div id="countriesSource">
+         <ul>
+            <li value="AFG">Afghanistan</li>
+            <li value="ALA">Åland Islands</li>
+            <li value="ALB">Albania</li>
+            <li value="DZA">Algeria</li>
+            <li value="ASM">American Samoa</li>
+            <li value="AND">Andorra</li>
+            <li value="AGO">Angola</li>
+            <li value="AIA">Anguilla</li>
+            <li value="ATA">Antarctica</li>
+            <li value="ATG">Antigua and Barbuda</li>
+            <li value="ARG">Argentina</li>
+            <li value="ARM">Armenia</li>
+            <li value="ABW">Aruba</li>
+            <li value="AUS">Australia</li>
+            <li value="AUT">Austria</li>
+            <li value="AZE">Azerbaijan</li>
+            <li value="BHS">Bahamas</li>
+            <li value="BHR">Bahrain</li>
+            <li value="BGD">Bangladesh</li>
+            <li value="BRB">Barbados</li>
+            <li value="BLR">Belarus</li>
+            <li value="BEL">Belgium</li>
+            <li value="BLZ">Belize</li>
+            <li value="BEN">Benin</li>
+            <li value="BMU">Bermuda</li>
+            <li value="BTN">Bhutan</li>
+            <li value="BOL">Bolivia, Plurinational State of</li>
+            <li value="BES">Bonaire, Sint Eustatius and Saba</li>
+            <li value="BIH">Bosnia and Herzegovina</li>
+            <li value="BWA">Botswana</li>
+            <li value="BVT">Bouvet Island</li>
+            <li value="BRA">Brazil</li>
+            <li value="IOT">British Indian Ocean Territory</li>
+            <li value="BRN">Brunei Darussalam</li>
+            <li value="BGR">Bulgaria</li>
+            <li value="BFA">Burkina Faso</li>
+            <li value="BDI">Burundi</li>
+            <li value="KHM">Cambodia</li>
+            <li value="CMR">Cameroon</li>
+            <li value="CAN">Canada</li>
+            <li value="CPV">Cape Verde</li>
+            <li value="CYM">Cayman Islands</li>
+            <li value="CAF">Central African Republic</li>
+            <li value="TCD">Chad</li>
+            <li value="CHL">Chile</li>
+            <li value="CHN">China</li>
+            <li value="CXR">Christmas Island</li>
+            <li value="CCK">Cocos (Keeling) Islands</li>
+            <li value="COL">Colombia</li>
+            <li value="COM">Comoros</li>
+            <li value="COG">Congo</li>
+            <li value="COD">Congo, the Democratic Republic of the</li>
+            <li value="COK">Cook Islands</li>
+            <li value="CRI">Costa Rica</li>
+            <li value="CIV">Côte d'Ivoire</li>
+            <li value="HRV">Croatia</li>
+            <li value="CUB">Cuba</li>
+            <li value="CUW">Curaçao</li>
+            <li value="CYP">Cyprus</li>
+            <li value="CZE">Czech Republic</li>
+            <li value="DNK">Denmark</li>
+            <li value="DJI">Djibouti</li>
+            <li value="DMA">Dominica</li>
+            <li value="DOM">Dominican Republic</li>
+            <li value="ECU">Ecuador</li>
+            <li value="EGY">Egypt</li>
+            <li value="SLV">El Salvador</li>
+            <li value="GNQ">Equatorial Guinea</li>
+            <li value="ERI">Eritrea</li>
+            <li value="EST">Estonia</li>
+            <li value="ETH">Ethiopia</li>
+            <li value="FLK">Falkland Islands (Malvinas)</li>
+            <li value="FRO">Faroe Islands</li>
+            <li value="FJI">Fiji</li>
+            <li value="FIN">Finland</li>
+            <li value="FRA">France</li>
+            <li value="GUF">French Guiana</li>
+            <li value="PYF">French Polynesia</li>
+            <li value="ATF">French Southern Territories</li>
+            <li value="GAB">Gabon</li>
+            <li value="GMB">Gambia</li>
+            <li value="GEO">Georgia</li>
+            <li value="DEU">Germany</li>
+            <li value="GHA">Ghana</li>
+            <li value="GIB">Gibraltar</li>
+            <li value="GRC">Greece</li>
+            <li value="GRL">Greenland</li>
+            <li value="GRD">Grenada</li>
+            <li value="GLP">Guadeloupe</li>
+            <li value="GUM">Guam</li>
+            <li value="GTM">Guatemala</li>
+            <li value="GGY">Guernsey</li>
+            <li value="GIN">Guinea</li>
+            <li value="GNB">Guinea-Bissau</li>
+            <li value="GUY">Guyana</li>
+            <li value="HTI">Haiti</li>
+            <li value="HMD">Heard Island and McDonald Islands</li>
+            <li value="VAT">Holy See (Vatican City State)</li>
+            <li value="HND">Honduras</li>
+            <li value="HKG">Hong Kong</li>
+            <li value="HUN">Hungary</li>
+            <li value="ISL">Iceland</li>
+            <li value="IND">India</li>
+            <li value="IDN">Indonesia</li>
+            <li value="IRN">Iran, Islamic Republic of</li>
+            <li value="IRQ">Iraq</li>
+            <li value="IRL">Ireland</li>
+            <li value="IMN">Isle of Man</li>
+            <li value="ISR">Israel</li>
+            <li value="ITA">Italy</li>
+            <li value="JAM">Jamaica</li>
+            <li value="JPN">Japan</li>
+            <li value="JEY">Jersey</li>
+            <li value="JOR">Jordan</li>
+            <li value="KAZ">Kazakhstan</li>
+            <li value="KEN">Kenya</li>
+            <li value="KIR">Kiribati</li>
+            <li value="PRK">Korea, Democratic People's Republic of</li>
+            <li value="KOR">Korea, Republic of</li>
+            <li value="KWT">Kuwait</li>
+            <li value="KGZ">Kyrgyzstan</li>
+            <li value="LAO">Lao People's Democratic Republic</li>
+            <li value="LVA">Latvia</li>
+            <li value="LBN">Lebanon</li>
+            <li value="LSO">Lesotho</li>
+            <li value="LBR">Liberia</li>
+            <li value="LBY">Libya</li>
+            <li value="LIE">Liechtenstein</li>
+            <li value="LTU">Lithuania</li>
+            <li value="LUX">Luxembourg</li>
+            <li value="MAC">Macao</li>
+            <li value="MKD">Macedonia, the former Yugoslav Republic of</li>
+            <li value="MDG">Madagascar</li>
+            <li value="MWI">Malawi</li>
+            <li value="MYS">Malaysia</li>
+            <li value="MDV">Maldives</li>
+            <li value="MLI">Mali</li>
+            <li value="MLT">Malta</li>
+            <li value="MHL">Marshall Islands</li>
+            <li value="MTQ">Martinique</li>
+            <li value="MRT">Mauritania</li>
+            <li value="MUS">Mauritius</li>
+            <li value="MYT">Mayotte</li>
+            <li value="MEX">Mexico</li>
+            <li value="FSM">Micronesia, Federated States of</li>
+            <li value="MDA">Moldova, Republic of</li>
+            <li value="MCO">Monaco</li>
+            <li value="MNG">Mongolia</li>
+            <li value="MNE">Montenegro</li>
+            <li value="MSR">Montserrat</li>
+            <li value="MAR">Morocco</li>
+            <li value="MOZ">Mozambique</li>
+            <li value="MMR">Myanmar</li>
+            <li value="NAM">Namibia</li>
+            <li value="NRU">Nauru</li>
+            <li value="NPL">Nepal</li>
+            <li value="NLD">Netherlands</li>
+            <li value="NCL">New Caledonia</li>
+            <li value="NZL">New Zealand</li>
+            <li value="NIC">Nicaragua</li>
+            <li value="NER">Niger</li>
+            <li value="NGA">Nigeria</li>
+            <li value="NIU">Niue</li>
+            <li value="NFK">Norfolk Island</li>
+            <li value="MNP">Northern Mariana Islands</li>
+            <li value="NOR">Norway</li>
+            <li value="OMN">Oman</li>
+            <li value="PAK">Pakistan</li>
+            <li value="PLW">Palau</li>
+            <li value="PSE">Palestinian Territory, Occupied</li>
+            <li value="PAN">Panama</li>
+            <li value="PNG">Papua New Guinea</li>
+            <li value="PRY">Paraguay</li>
+            <li value="PER">Peru</li>
+            <li value="PHL">Philippines</li>
+            <li value="PCN">Pitcairn</li>
+            <li value="POL">Poland</li>
+            <li value="PRT">Portugal</li>
+            <li value="PRI">Puerto Rico</li>
+            <li value="QAT">Qatar</li>
+            <li value="REU">Réunion</li>
+            <li value="ROU">Romania</li>
+            <li value="RUS">Russian Federation</li>
+            <li value="RWA">Rwanda</li>
+            <li value="BLM">Saint Barthélemy</li>
+            <li value="SHN">Saint Helena, Ascension and Tristan da Cunha</li>
+            <li value="KNA">Saint Kitts and Nevis</li>
+            <li value="LCA">Saint Lucia</li>
+            <li value="MAF">Saint Martin (French part)</li>
+            <li value="SPM">Saint Pierre and Miquelon</li>
+            <li value="VCT">Saint Vincent and the Grenadines</li>
+            <li value="WSM">Samoa</li>
+            <li value="SMR">San Marino</li>
+            <li value="STP">Sao Tome and Principe</li>
+            <li value="SAU">Saudi Arabia</li>
+            <li value="SEN">Senegal</li>
+            <li value="SRB">Serbia</li>
+            <li value="SYC">Seychelles</li>
+            <li value="SLE">Sierra Leone</li>
+            <li value="SGP">Singapore</li>
+            <li value="SXM">Sint Maarten (Dutch part)</li>
+            <li value="SVK">Slovakia</li>
+            <li value="SVN">Slovenia</li>
+            <li value="SLB">Solomon Islands</li>
+            <li value="SOM">Somalia</li>
+            <li value="ZAF">South Africa</li>
+            <li value="SGS">South Georgia and the South Sandwich Islands</li>
+            <li value="SSD">South Sudan</li>
+            <li value="ESP">Spain</li>
+            <li value="LKA">Sri Lanka</li>
+            <li value="SDN">Sudan</li>
+            <li value="SUR">Suriname</li>
+            <li value="SJM">Svalbard and Jan Mayen</li>
+            <li value="SWZ">Swaziland</li>
+            <li value="SWE">Sweden</li>
+            <li value="CHE">Switzerland</li>
+            <li value="SYR">Syrian Arab Republic</li>
+            <li value="TWN">Taiwan, Province of China</li>
+            <li value="TJK">Tajikistan</li>
+            <li value="TZA">Tanzania, United Republic of</li>
+            <li value="THA">Thailand</li>
+            <li value="TLS">Timor-Leste</li>
+            <li value="TGO">Togo</li>
+            <li value="TKL">Tokelau</li>
+            <li value="TON">Tonga</li>
+            <li value="TTO">Trinidad and Tobago</li>
+            <li value="TUN">Tunisia</li>
+            <li value="TUR">Turkey</li>
+            <li value="TKM">Turkmenistan</li>
+            <li value="TCA">Turks and Caicos Islands</li>
+            <li value="TUV">Tuvalu</li>
+            <li value="UGA">Uganda</li>
+            <li value="UKR">Ukraine</li>
+            <li value="ARE">United Arab Emirates</li>
+            <li value="GBR">United Kingdom</li>
+            <li value="USA">United States</li>
+            <li value="UMI">United States Minor Outlying Islands</li>
+            <li value="URY">Uruguay</li>
+            <li value="UZB">Uzbekistan</li>
+            <li value="VUT">Vanuatu</li>
+            <li value="VEN">Venezuela, Bolivarian Republic of</li>
+            <li value="VNM">Viet Nam</li>
+            <li value="VGB">Virgin Islands, British</li>
+            <li value="VIR">Virgin Islands, U.S.</li>
+            <li value="WLF">Wallis and Futuna</li>
+            <li value="ESH">Western Sahara</li>
+            <li value="YEM">Yemen</li>
+            <li value="ZMB">Zambia</li>
+            <li value="ZWE">Zimbabwe</li>
+         </ul>
+      </div>
+      <!-- lib -->
+      <script src="../../lib/dr.js"></script>
+      <script>
+         document.addEventListener('DOMContentLoaded', function () {
+           // render the countries
+           (function () {
+             var renderer = new OIGDomRenderer();
+             var target = document.getElementById('countriesTarget');
+             var source = document.getElementById('countriesSource').cloneNode(true);
+             var start = window.performance.now();
+             renderer.render(source, target);
+             var end = window.performance.now();
+             var text = 'rendering countries took: ' + (end - start).toFixed(4) + 'milliseconds';
+             text += ' (same:' + source.isEqualNode(target) + ')';
+             document.getElementById('countriesTimer').textContent = text;
+           }())
+           // get the tiger
+           var xhr = new XMLHttpRequest();
+           var source;
+           xhr.open('GET', 'fixtures/tiger.svg', true);
+           xhr.onload = function() {
+             var renderer = new OIGDomRenderer();
+             source = xhr.responseXML.documentElement;
+             // render tigers
+             setTimeout(function () {
+               var start = window.performance.now();
+               renderer.render(source, document.getElementById('svgTiger1'));
+               var end = window.performance.now();
+               var text = 'rendering took: ' + (end - start).toFixed(4) + 'milliseconds';
+               document.getElementById('tigerTimer').textContent = text;
+               renderer.render(source, document.getElementById('svgTiger2'));
+             }, 1000);
+           }
+           xhr.send();
+           // worldmap
+         }, false)
+      </script>
+   </body>
 </html>
