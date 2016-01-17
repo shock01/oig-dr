@@ -36,6 +36,12 @@ describe('OIGDomRenderer', function() {
     console.groupEnd();
   });
 
+  it('should return the same element when source element has different nodeName', function() {
+    source = document.createElement('span');
+    var result = domRenderer.render(source, target);
+    expect(target).to.equal(result);
+  });
+
   it('should return the same element when first element is textnode', function() {
     source.appendChild(document.createElement('div'));
     var textNode = document.createTextNode('test');
