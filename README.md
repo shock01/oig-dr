@@ -32,7 +32,6 @@ Internet Explorer is 2 times slower needing 10ms
 interface OIGDomRenderer
 
 void render(source: element|string, target:element)
-  throws '[oig-dr].render source and target should be same element';
 ```
 
 ## Example
