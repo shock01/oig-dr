@@ -10,8 +10,6 @@ Uses DOMTreeWalker and isEqualNode extensively so will work (most probably) with
 
 Is namespace aware so can also be used to render SVG Content or other namespace aware elements.
 
-The first element (container element) should be of the same nodeType and nodeName (eg. both HTMLDivElements)
-
 
 ## To run
 
