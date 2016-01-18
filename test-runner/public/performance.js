@@ -1,0 +1,100 @@
+document.addEventListener('DOMContentLoaded', function() {
+  var fixtures = [{
+    source: 'fixtures/svg/source.svg',
+    target: 'fixtures/svg/target.svg'
+  }, {
+    source: 'fixtures/large/source.html',
+    target: 'fixtures/large/target.html'
+  }];
+  var results = [];
+
+  function loadTemplate(url) {
+    return new Promise(function(resolve, reject) {
+      var xhr = new XMLHttpRequest();
+      xhr.open('GET', url, true);
+      xhr.onload = function() {
+        if (this.status >= 200 && this.status < 300) {
+          resolve(new DOMParser().parseFromString(xhr.responseText, 'text/xml').documentElement);
+        } else {
+          reject({
+            status: this.status,
+            statusText: xhr.statusText
+          });
+        }
+      };
+      xhr.onerror = function() {
+        reject({
+          status: this.status,
+          statusText: xhr.statusText
+        });
+      };
+      xhr.send();
+    });
+  }
+
+  function setUp(fixture) {
+    return Promise.all([loadTemplate(fixture.source), loadTemplate(fixture.target)])
+      .then(function(result) {
+        fixture.sourceElement = function() {
+          return result[0].cloneNode(true)
+        };
+        fixture.targetElement = function() {
+          return result[1].cloneNode(true);
+        }
+      });
+  }
+
+  function run(fixture) {
+    var totalRuns = 100,
+      sourceElement,
+      targetElement,
+      start,
+      end,
+      tests = {
+        'attached': 0,
+        'detached': 0
+      };
+
+    for (var i = 0; i < totalRuns; i++) {
+      sourceElement = fixture.sourceElement();
+      targetElement = fixture.targetElement();
+      // DOMNode not in document
+      start = performance.now();
+      new OIGDomRenderer().render(sourceElement, targetElement);
+      end = performance.now();
+      tests.detached += end - start;
+      // Part of document
+      targetElement = fixture.targetElement();
+      sourceElement = document.body.appendChild(document.importNode(fixture.sourceElement(), true));
+      start = performance.now();
+      new OIGDomRenderer().render(sourceElement, targetElement);
+      end = performance.now();
+      tests.attached += end - start;
+      // cleanup
+      sourceElement.parentNode.removeChild(sourceElement);
+    }
+    results.push({
+      fixture: fixture,
+      time: {
+        attached: tests.attached / totalRuns,
+        detached: tests.detached / totalRuns
+      }
+    })
+  }
+
+  Promise.all(fixtures.map(function(fixture) {
+    return setUp(fixture);
+  })).then(function() {
+    fixtures.forEach(function(fixture) {
+      run(fixture);
+    })
+    var output = document.getElementById('output');
+    output.innerHTML = tmpl("tmpl", {
+      results: results
+    });
+    console.groupCollapsed('results')
+    console.dir(results);
+    console.groupEnd();
+  });
+
+}, false)
