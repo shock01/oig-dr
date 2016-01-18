@@ -60,7 +60,8 @@ document.addEventListener('DOMContentLoaded', function() {
       end,
       tests = {
         'attached': 0,
-        'detached': 0
+        'detached': 0,
+        'morphdom': 0
       };
 
     for (var i = 0; i < totalRuns; i++) {
@@ -71,6 +72,13 @@ document.addEventListener('DOMContentLoaded', function() {
       new OIGDomRenderer().render(sourceElement, targetElement);
       end = performance.now();
       tests.detached += end - start;
+      // morphdom
+      sourceElement = fixture.sourceElement();
+      targetElement = fixture.targetElement();
+      start = performance.now();
+      morphdom(sourceElement, targetElement);
+      end = performance.now();
+      tests.morphdom += end - start;
       // Part of document
       targetElement = fixture.targetElement();
       sourceElement = document.body.appendChild(document.importNode(fixture.sourceElement(), true));
@@ -85,7 +93,8 @@ document.addEventListener('DOMContentLoaded', function() {
       fixture: fixture,
       time: {
         attached: tests.attached / totalRuns,
-        detached: tests.detached / totalRuns
+        detached: tests.detached / totalRuns,
+        morphdom: tests.morphdom / totalRuns
       }
     })
   }

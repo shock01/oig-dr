@@ -18,6 +18,7 @@
              <th>target</th>
              <th>attached (ms)</th>
              <th>detached (ms)</th>
+             <th>detached morphdom (ms)</th>
           </tr>
        </thead>
        <tbody>
@@ -27,6 +28,7 @@
               <td><%=results[i].fixture.target%></td>
               <td><%=results[i].time.attached.toFixed(4)%></td>
               <td><%=results[i].time.detached.toFixed(4)%></td>
+              <td><%=results[i].time.morphdom.toFixed(4)%></td>
            </tr>
          <% } %>
        </tbody>
@@ -35,10 +37,12 @@
     <h1>Performance Test</h1>
     <p>Runs attached and detached tests (eg. nodes in the document and visa versa)</p>
     <p>Average of 100 runs per test is reported in milliseconds</p>
+    <p>Morphdom is used for comparison. At time of writing morpdom actually fails on isEqualNode for fixtures/large and also fails on morphing the SVG</p>
     <!--p>virtual dom runs large test in 1.01ms and morphdom takes	1.61ms (source: <a href="https://github.com/patrick-steele-idem/morphdom">morphdom</a>)</p>
     <p>Where oig-dr takes aprox 0.27ms on Intel(R) Core(TM) i7-4712HQ CPU @ 2.30 16.0GB Ram Google Chrome Version 47.0.2526.111 m</p-->
     <div id="output"></div>
     <script src="lib/dr.js"></script>
+    <script src="vendor/morphdom.js"></script>
     <script src="microtemplate.js"></script>
     <script src="performance.js"></script>
    </body>
