@@ -25,18 +25,20 @@ describe('OIGDomRenderer', function() {
     source.ownerDocument.documentElement.setAttributeNS('http://www.w3.org/2000/xmlns/', 'xmlns:xlink', 'http://www.w3.org/1999/xlink');
     target.ownerDocument.documentElement.setAttributeNS('http://www.w3.org/2000/xmlns/', 'xmlns:xlink', 'http://www.w3.org/1999/xlink');
   });
+  // do not run headless
+  if (!(window.outerWidth === 0 && window.outerHeight === 0)) {
+    beforeEach(function() {
+      console.groupCollapsed(this.currentTest.title);
+    });
 
-  beforeEach(function() {
-    console.groupCollapsed(this.currentTest.title);
-  });
-
-  afterEach(function() {
-    console.log('source outerHTML');
-    console.debug(source.outerHTML);
-    console.log('target outerHTML');
-    console.debug(target.outerHTML);
-    console.groupEnd();
-  });
+    afterEach(function() {
+      console.log('source outerHTML');
+      console.debug(source.outerHTML);
+      console.log('target outerHTML');
+      console.debug(target.outerHTML);
+      console.groupEnd();
+    });
+  }
 
   it('should return the same element when source element has different nodeName', function() {
     source = document.createElement('span');
@@ -189,43 +191,31 @@ describe('OIGDomRenderer', function() {
     var result = domRenderer.render(source, target);
     expect(target.isEqualNode(source)).to.equal(true);
   });
-
   it('should update a namespaced attributes', function() {
     source.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', 'dooh');
     target.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', 'yeah');
     var result = domRenderer.render(source, target);
     expect(target.isEqualNode(source)).to.equal(true);
   });
-
   it('should add the namespace when target is missing namespaceURI', function() {
     source.ownerDocument.documentElement.removeAttributeNS('http://www.w3.org/2000/xmlns/', 'xmlns:xlink');
-
     source.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', 'dooh');
     target.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', 'yeah');
     var result = domRenderer.render(source, target);
     expect(target.isEqualNode(source)).to.equal(true);
   });
-
-  it('should preserve namespaces', function() {
-    var source = new DOMParser().parseFromString('<div><svg:svg xmlns:svg="http://www.w3.org/2000/svg"></svg:svg></div>', 'text/html').documentElement.querySelector('body').querySelector('div');
-    domRenderer.render(source, target);
-    expect(target.isEqualNode(source)).to.equal(true);
-  });
-
   it('should add comments', function() {
     var comment = document.createComment('test');
     source.appendChild(comment);
     domRenderer.render(source, target);
     expect(target.isEqualNode(source)).to.equal(true);
   });
-
   it('should remove comments', function() {
     var comment = document.createComment('test');
     target.appendChild(comment);
     domRenderer.render(source, target);
     expect(target.isEqualNode(source)).to.equal(true);
   });
-
   it('should change comments', function() {
     var sourceComment = document.createComment('hello');
     var targetComment = document.createComment('world')
@@ -234,7 +224,6 @@ describe('OIGDomRenderer', function() {
     domRenderer.render(source, target);
     expect(target.isEqualNode(source)).to.equal(true);
   });
-
   it('should ignore comments', function() {
     var sourceComment = document.createComment('hello');
     var targetComment = document.createComment('world');
