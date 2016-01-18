@@ -205,4 +205,44 @@ describe('OIGDomRenderer', function() {
     var result = domRenderer.render(source, target);
     expect(target.isEqualNode(source)).to.equal(true);
   });
+
+  it('should preserve namespaces', function() {
+    var source = new DOMParser().parseFromString('<div><svg:svg xmlns:svg="http://www.w3.org/2000/svg"></svg:svg></div>', 'text/html').documentElement.querySelector('body').querySelector('div');
+    domRenderer.render(source, target);
+    expect(target.isEqualNode(source)).to.equal(true);
+  });
+
+  it('should add comments', function() {
+    var comment = document.createComment('test');
+    source.appendChild(comment);
+    domRenderer.render(source, target);
+    expect(target.isEqualNode(source)).to.equal(true);
+  });
+
+  it('should remove comments', function() {
+    var comment = document.createComment('test');
+    target.appendChild(comment);
+    domRenderer.render(source, target);
+    expect(target.isEqualNode(source)).to.equal(true);
+  });
+
+  it('should change comments', function() {
+    var sourceComment = document.createComment('hello');
+    var targetComment = document.createComment('world')
+    source.appendChild(sourceComment);
+    target.appendChild(targetComment);
+    domRenderer.render(source, target);
+    expect(target.isEqualNode(source)).to.equal(true);
+  });
+
+  it('should ignore comments', function() {
+    var sourceComment = document.createComment('hello');
+    var targetComment = document.createComment('world');
+    source.appendChild(sourceComment);
+    target.appendChild(targetComment);
+    domRenderer.render(source, target, {
+      ignoreComments: true
+    });
+    expect(target.childNodes.length).to.equal(0);
+  });
 });

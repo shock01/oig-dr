@@ -26,9 +26,11 @@ Is namespace aware so can also be used to render SVG Content or other namespace 
 
 ## API
 ```
-interface OIGDomRenderer
+interface Options
+property boolean ignoreComments default false
 
-void render(source: element|string, target:element)
+interface OIGDomRenderer
+void render(source: element|string, target:element, options?: Options)
 ```
 
 ## Example
@@ -36,6 +38,23 @@ void render(source: element|string, target:element)
 var domRenderer = new OIGDomRenderer();
 var targetElement = document.createElement('div');
 domRenderer.render(targetElement, '<div id="123"><span>hello world!</div>');
+// this should change the targetElement to : '<div id="123"><span>hello world!</div>'
+```
+
+## Example ignoring comments in source
+```
+var domRenderer = new OIGDomRenderer();
+var targetElement = document.createElement('div');
+domRenderer.render(targetElement, '<div id="123"><!--test--><span>hello world!</div>', {ignoreComment: true});
+// this should change the targetElement to : '<div id="123"><span>hello world!</div>'
+```
+
+## Example ignoring comments in target
+```
+var domRenderer = new OIGDomRenderer();
+var targetElement = document.createElement('div');
+targetElement.appendChild(document.createTextNode('a comment'));
+domRenderer.render(targetElement, '<div id="123"><span>hello world!</div>', {ignoreComment: true});
 // this should change the targetElement to : '<div id="123"><span>hello world!</div>'
 ```
 
