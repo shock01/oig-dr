@@ -20,9 +20,8 @@ The first element (container element) should be of the same nodeType and nodeNam
 
 ## Rendering Performance / Example
 
-Changes an SVG into the glorious SVG tiger in approx 5 milliseconds
-
-Internet Explorer is 2 times slower needing 10ms
+- Changes an SVG into the glorious SVG tiger
+- Uses morphdom large fixture as comparison
 
 - use npm run test-server
 - open browser http://localhost:3000/performance.html
