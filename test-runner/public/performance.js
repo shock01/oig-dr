@@ -1,20 +1,28 @@
 document.addEventListener('DOMContentLoaded', function() {
   var fixtures = [{
     source: 'fixtures/svg/source.svg',
-    target: 'fixtures/svg/target.svg'
+    target: 'fixtures/svg/target.svg',
+    contentType: 'text/xml'
   }, {
     source: 'fixtures/large/source.html',
-    target: 'fixtures/large/target.html'
+    target: 'fixtures/large/target.html',
+    contentType: 'text/html'
   }];
   var results = [];
 
-  function loadTemplate(url) {
+  function loadTemplate(url, contentType) {
     return new Promise(function(resolve, reject) {
       var xhr = new XMLHttpRequest();
       xhr.open('GET', url, true);
       xhr.onload = function() {
         if (this.status >= 200 && this.status < 300) {
-          resolve(new DOMParser().parseFromString(xhr.responseText, 'text/xml').documentElement);
+          var element;
+          if (contentType === 'text/xml') {
+            element = new DOMParser().parseFromString(xhr.responseText, contentType).documentElement
+          } else {
+            element = new DOMParser().parseFromString(xhr.responseText, contentType).documentElement.querySelector('BODY').firstChild;
+          }
+          resolve(element);
         } else {
           reject({
             status: this.status,
@@ -33,7 +41,7 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   function setUp(fixture) {
-    return Promise.all([loadTemplate(fixture.source), loadTemplate(fixture.target)])
+    return Promise.all([loadTemplate(fixture.source, fixture.contentType), loadTemplate(fixture.target, fixture.contentType)])
       .then(function(result) {
         fixture.sourceElement = function() {
           return result[0].cloneNode(true)
@@ -71,7 +79,7 @@ document.addEventListener('DOMContentLoaded', function() {
       end = performance.now();
       tests.attached += end - start;
       // cleanup
-      sourceElement.parentNode.removeChild(sourceElement);
+      // sourceElement.parentNode.removeChild(sourceElement);
     }
     results.push({
       fixture: fixture,
