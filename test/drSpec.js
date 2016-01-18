@@ -22,6 +22,8 @@ describe('OIGDomRenderer', function() {
     domRenderer = new OIGDomRenderer();
     source = document.createElement('div');
     target = document.createElement('div');
+    source.ownerDocument.documentElement.setAttributeNS('http://www.w3.org/2000/xmlns/', 'xmlns:xlink', 'http://www.w3.org/1999/xlink');
+    target.ownerDocument.documentElement.setAttributeNS('http://www.w3.org/2000/xmlns/', 'xmlns:xlink', 'http://www.w3.org/1999/xlink');
   });
 
   beforeEach(function() {
@@ -182,9 +184,24 @@ describe('OIGDomRenderer', function() {
   });
   it('should return same attributes when using namespaces', function() {
     var child = document.createElement('div');
-    source.setAttributeNS('http://www.w3.org/2000/xmlns/', 'xmlns:xlink', 'http://www.w3.org/1999/xlink');
-    child.setAttributeNS('http://www.w3.org/1999/xlink', 'href', 'dooh')
+    child.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', 'dooh')
     source.appendChild(child);
+    var result = domRenderer.render(source, target);
+    expect(target.isEqualNode(source)).to.equal(true);
+  });
+
+  it('should update a namespaced attributes', function() {
+    source.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', 'dooh');
+    target.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', 'yeah');
+    var result = domRenderer.render(source, target);
+    expect(target.isEqualNode(source)).to.equal(true);
+  });
+
+  it('should add the namespace when target is missing namespaceURI', function() {
+    source.ownerDocument.documentElement.removeAttributeNS('http://www.w3.org/2000/xmlns/', 'xmlns:xlink');
+
+    source.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', 'dooh');
+    target.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', 'yeah');
     var result = domRenderer.render(source, target);
     expect(target.isEqualNode(source)).to.equal(true);
   });

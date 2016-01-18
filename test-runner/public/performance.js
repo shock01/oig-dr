@@ -78,6 +78,7 @@ document.addEventListener('DOMContentLoaded', function() {
       start = performance.now();
       morphdom(sourceElement, targetElement);
       end = performance.now();
+      console.log(new XMLSerializer().serializeToString(sourceElement) === new XMLSerializer().serializeToString(targetElement))
       tests.morphdom += end - start;
       // Part of document
       targetElement = fixture.targetElement();
