@@ -1,8 +1,3 @@
-// TODO diff with Comment nodes
-// TODO HTMLElement properties which cannot be set by document object model
-// TODO performance using documentFragment when there is no source node
-// TODO element namespaces (SVG)
-// TODO maintain / preserve handlers (removeall / replace might break javascript handlers)
 describe('OIGDomRenderer', function() {
   'use strict';
   var expect = chai.expect;
