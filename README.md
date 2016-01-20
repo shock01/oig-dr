@@ -4,12 +4,13 @@
 
 ## Info
 
-OIG DomRenderer updates a target DOMElement with the contents of a DOMElement or HTMLString
+> OIG DomRenderer updates a target DOMElement with the contents of a DOMElement or HTMLString
+> Uses isEqualNode extensively so will work (most probably) with IE9+
+> Is namespace aware so can also be used to render SVG Content or other namespace aware elements.
 
-Uses DOMTreeWalker and isEqualNode extensively so will work (most probably) with IE9+
-
-Is namespace aware so can also be used to render SVG Content or other namespace aware elements.
-
+OIG DOMRenderer takes an optional options argument with the following properties
+- **ignoreComments** (default false) - Will remove any comments while rendering from target and skips comments from source
+- **deep** (default true) - When set to true equality of nodes is tested on the element itself and not on it's complete subtree. Each child in the subtree will be parsed again to be able to maintain properties/handlers on elements that have not changed from target to source. If uniqueness of elements is not required it's better to use deep:false for performance reasons
 
 ## To run
 
@@ -28,7 +29,7 @@ Is namespace aware so can also be used to render SVG Content or other namespace 
 ```
 interface Options
 property boolean ignoreComments default false
-
+property boolean deep default true
 interface OIGDomRenderer
 void render(source: element|string, target:element, options?: Options)
 ```

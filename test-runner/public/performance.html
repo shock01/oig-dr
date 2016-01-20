@@ -14,21 +14,27 @@
        <table>
          <thead>
             <tr>
-             <th>source</th>
-             <th>target</th>
-             <th>attached (ms)</th>
-             <th>detached (ms)</th>
+             <th>from</th>
+             <th>to</th>
+             <th>attached deep(ms)</th>
+             <th>attached shallow <br>(deep is false)(ms)</th>
+             <th>detached deep(ms)</th>
+             <th>detached shallow <br>(deep is false)</th>
+             <th>attached morphdom (ms)</th>
              <th>detached morphdom (ms)</th>
           </tr>
        </thead>
        <tbody>
          <% for ( var i = 0; i < results.length; i++ ) { %>
            <tr>
-              <td><%=results[i].fixture.source%></td>
-              <td><%=results[i].fixture.target%></td>
+              <td><%=results[i].fixture.from%></td>
+              <td><%=results[i].fixture.to%></td>
               <td><%=results[i].time.attached.toFixed(4)%></td>
+              <td><%=results[i].time.attachedShallow.toFixed(4)%></td>
               <td><%=results[i].time.detached.toFixed(4)%></td>
-              <td><%=results[i].time.morphdom.toFixed(4)%></td>
+              <td><%=results[i].time.detachedShallow.toFixed(4)%></td>
+              <td><%=results[i].time.attachedMorphdom.toFixed(4)%></td>
+              <td><%=results[i].time.detachedMorphdom.toFixed(4)%></td>
            </tr>
          <% } %>
        </tbody>
@@ -40,7 +46,14 @@
     <p>Morphdom is used for comparison. At time of writing morpdom actually fails on isEqualNode for fixtures/large and also fails on morphing the SVG</p>
     <!--p>virtual dom runs large test in 1.01ms and morphdom takes	1.61ms (source: <a href="https://github.com/patrick-steele-idem/morphdom">morphdom</a>)</p>
     <p>Where oig-dr takes aprox 0.27ms on Intel(R) Core(TM) i7-4712HQ CPU @ 2.30 16.0GB Ram Google Chrome Version 47.0.2526.111 m</p-->
+    <div>Please wait....</div>
     <div id="output"></div>
+    <h3>OIG DomRenderer using deep: true</h3>
+    <div id="deep"></div>
+    <h3>OIG DOMRenderer using deep: false</h3>
+    <div id="shallow"></div>
+    <h3>morphdom output</h3>
+    <div id="morphdom"></div>
     <script src="lib/dr.js"></script>
     <script src="vendor/morphdom.js"></script>
     <script src="microtemplate.js"></script>

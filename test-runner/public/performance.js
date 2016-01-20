@@ -1,11 +1,14 @@
 document.addEventListener('DOMContentLoaded', function() {
+
+  var totalRuns = 20;
+
   var fixtures = [{
-    source: 'fixtures/svg/source.svg',
-    target: 'fixtures/svg/target.svg',
+    from: 'fixtures/svg/from.svg',
+    to: 'fixtures/svg/to.svg',
     contentType: 'text/xml'
   }, {
-    source: 'fixtures/large/source.html',
-    target: 'fixtures/large/target.html',
+    from: 'fixtures/large/from.html',
+    to: 'fixtures/large/to.html',
     contentType: 'text/html'
   }];
   var results = [];
@@ -41,51 +44,79 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   function setUp(fixture) {
-    return Promise.all([loadTemplate(fixture.source, fixture.contentType), loadTemplate(fixture.target, fixture.contentType)])
+    return Promise.all([loadTemplate(fixture.from, fixture.contentType), loadTemplate(fixture.to, fixture.contentType)])
       .then(function(result) {
-        fixture.sourceElement = function() {
+        fixture.fromElement = function() {
           return result[0].cloneNode(true)
         };
-        fixture.targetElement = function() {
+        fixture.toElement = function() {
           return result[1].cloneNode(true);
         }
       });
   }
 
   function run(fixture) {
-    var totalRuns = 100,
+    var deepContentElement = document.getElementById('deep'),
+      shallowContentElement = document.getElementById('shallow'),
+      morphdomContentElement = document.getElementById('morphdom'),
       sourceElement,
       targetElement,
       start,
       end,
       tests = {
         'attached': 0,
+        'attachedShallow': 0,
         'detached': 0,
-        'morphdom': 0
+        'detachedShallow': 0,
+        'attachedMorphdom': 0,
+        'detachedMorphdom': 0
       };
 
     for (var i = 0; i < totalRuns; i++) {
-      sourceElement = fixture.sourceElement();
-      targetElement = fixture.targetElement();
-      // DOMNode not in document
+      sourceElement = fixture.toElement();
+      targetElement = fixture.fromElement();
+      // Detached
       start = performance.now();
       new OIGDomRenderer().render(sourceElement, targetElement);
       end = performance.now();
       tests.detached += end - start;
+      // DOMNode not in document shallow
+      start = performance.now();
+      new OIGDomRenderer().render(sourceElement, targetElement, {
+        deep: false
+      });
+      end = performance.now();
+      tests.detachedShallow += end - start;
       // morphdom
-      sourceElement = fixture.sourceElement();
-      targetElement = fixture.targetElement();
+      sourceElement = morphdomContentElement.appendChild(document.importNode(fixture.toElement(), true));
+      targetElement = fixture.fromElement();
       start = performance.now();
       morphdom(sourceElement, targetElement);
       end = performance.now();
-      tests.morphdom += end - start;
-      // Part of document
-      targetElement = fixture.targetElement();
-      sourceElement = document.body.appendChild(document.importNode(fixture.sourceElement(), true));
+      tests.attachedMorphdom += end - start;
+      // morphdom detached
+      sourceElement = fixture.toElement();
+      targetElement = fixture.fromElement();
+      start = performance.now();
+      morphdom(sourceElement, targetElement);
+      end = performance.now();
+      tests.detachedMorphdom += end - start;
+      // Attached
+      sourceElement = deepContentElement.appendChild(document.importNode(fixture.toElement(), true));
+      targetElement = fixture.fromElement();
       start = performance.now();
       new OIGDomRenderer().render(sourceElement, targetElement);
       end = performance.now();
       tests.attached += end - start;
+      // Attached shallow
+      sourceElement = shallowContentElement.appendChild(document.importNode(fixture.toElement(), true));
+      targetElement = fixture.fromElement();
+      start = performance.now();
+      new OIGDomRenderer().render(sourceElement, targetElement, {
+        deep: false
+      });
+      end = performance.now();
+      tests.attachedShallow += end - start;
       // cleanup
       // sourceElement.parentNode.removeChild(sourceElement);
     }
@@ -93,8 +124,11 @@ document.addEventListener('DOMContentLoaded', function() {
       fixture: fixture,
       time: {
         attached: tests.attached / totalRuns,
+        attachedShallow: tests.attachedShallow / totalRuns,
         detached: tests.detached / totalRuns,
-        morphdom: tests.morphdom / totalRuns
+        detachedShallow: tests.detachedShallow / totalRuns,
+        attachedMorphdom: tests.attachedMorphdom / totalRuns,
+        detachedMorphdom: tests.detachedMorphdom / totalRuns
       }
     })
   }
