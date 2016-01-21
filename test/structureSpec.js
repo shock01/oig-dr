@@ -1,5 +1,6 @@
+/* globals addElements,console,isHeadless */
+'use strict';
 describe('structure', function() {
-  'use strict';
   var expect = chai.expect;
   var domRenderer;
 
@@ -12,18 +13,19 @@ describe('structure', function() {
   });
 
   function test(title, setUp) {
-    it(title + ', deep:true(default)', function() {
-      setUp();
-      this.result = domRenderer.render(source, target);
-      expect(target.isEqualNode(source)).to.equal(true);
-    })
-    it(title + ', deep:false', function() {
-      setUp();
-      this.result = domRenderer.render(source, target, {
-        deep: false
+    [true, false].forEach(function(deep) {
+      it(title + ', deep:' + deep, function() {
+        setUp();
+        var result = domRenderer.render(source, target, {
+          deep: deep
+        });
+        if (!isHeadless) {
+          console.info(source.outerHTML);
+          console.debug(target.outerHTML);
+        }
+        expect(result.isEqualNode(source)).to.equal(true);
       });
-      expect(target.isEqualNode(source)).to.equal(true);
-    })
+    });
   }
   it('should return the same element', function() {
     domRenderer.render(source, target);
@@ -48,8 +50,16 @@ describe('structure', function() {
   test('should add the text', function() {
     source.textContent = 'hello';
   });
+  test('should add the text with nextSibling', function() {
+    source.appendChild(document.createTextNode('test'));
+    source.appendChild(document.createElement('div'));
+  });
   test('should remove the text', function() {
     target.textContent = 'hello';
+  });
+  test('should remove the text with nextSibling', function() {
+    target.appendChild(document.createTextNode('test'));
+    target.appendChild(document.createElement('div'));
   });
   test('should change the text', function() {
     source.textContent = 'hello';
@@ -88,5 +98,9 @@ describe('structure', function() {
   test('should return same structure for nested structure ', function() {
     source.innerHTML = '<div id="1_0"><div id="2_0"><div id="3_0"></div></div></div>';
     target.innerHTML = '<div id="1_0"></div><div id="2_0"></div>';
+  });
+  test('same firstSibling', function() {
+    target.appendChild(document.createElement('div'));
+    source.innerHTML = '<div>   <span></span>   </div>';
   });
 });

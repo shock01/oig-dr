@@ -1,0 +1,35 @@
+body, html {
+  font: 10pt/1.5 "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.results-table th {
+  text-align: left;
+}
+
+.results-table caption {
+  background-color: #f0f0f0;
+  padding: 8px;
+}
+
+.results-table {
+  margin: 0;
+  padding: 0;
+  border: 1px solid #000;
+  border-collapse: collapse;
+  font-size: 10pt;
+}
+
+.results-table td {
+  padding: 4px;
+  border: 1px solid #000;
+}
+
+.results-table th {
+  padding: 4px;
+  background-color: #d0d0d0;
+  border: 1px solid #000;
+}
+
+.results-table td:first-child {
+  background-color: #f0f0f0;
+}

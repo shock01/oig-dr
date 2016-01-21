@@ -1,0 +1,49 @@
+<!doctype html>
+<html>
+   <head>
+      <meta charset="utf-8">
+      <title>Benchmark</title>
+      <link rel="stylesheet" href="benchmark.css">
+   </head>
+   <body>
+    <script type="text/html" id="results_tmpl">
+       <table class="results-table">
+         <caption><%=data.name%></caption>
+         <thead>
+            <tr>
+             <th>test</th>
+             <th>cycles</th>
+             <th>Ops/sec</th>
+          </tr>
+       </thead>
+       <tbody>
+         <% for ( var i = 0; i < data.length; i++ ) { %>
+          <% if(typeof i === 'number') { %>
+            <tr>
+              <td><%=data[i].name%><br><span style="color:red"><%=data[i].error%></span></td>
+              <td><%=data[i].cycles%></td>
+              <td><%=data[i].hz.toFixed(3)%></td>
+            </tr>
+            <% } %>
+         <% } %>
+       </tbody>
+     </table>
+    </script>
+    <h1>Benchmarks</h1>
+    <p>Runs attached to document and detached tests</p>
+    <progress id="progress"></progress>
+    <div id="results"></div>
+    <div id="target"></div>
+
+    <script src="vendor/lodash.js"></script>
+    <script src="vendor/platform.js"></script>
+    <script src="vendor/benchmark.js"></script>
+
+    <script src="lib/dr.js"></script>
+    <script src="vendor/morphdom.js"></script>
+    <script src="microtemplate.js"></script>
+
+    <script src="fixtures/fixtures.js"></script>
+    <script src="benchmark.js"></script>
+   </body>
+</html>

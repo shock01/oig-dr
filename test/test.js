@@ -1,4 +1,6 @@
-
+/* jshint unused: false */
+/* globals console, isHeadless */
+'use strict';
 function addElements(node, nodeName, count, start) {
   for (var i = 0; i < count; i++) {
     var span = node.ownerDocument.createElement(nodeName);
@@ -6,10 +8,9 @@ function addElements(node, nodeName, count, start) {
     node.appendChild(span);
   }
 }
-
-
 // do not run headless
-if (!(window.outerWidth === 0 && window.outerHeight === 0)) {
+var isHeadless = (window.outerWidth === 0 && window.outerHeight === 0);
+if (!isHeadless) {
   beforeEach(function() {
     console.groupCollapsed(this.currentTest.title);
   });
@@ -24,4 +25,6 @@ if (!(window.outerWidth === 0 && window.outerHeight === 0)) {
     }
     console.groupEnd();
   });
+} else {
+
 }

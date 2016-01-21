@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test-server": "node test-runner/runner.js",
-    "test": "mocha-phantomjs test-runner/public/index.html"
+    "test": "mocha-phantomjs test-runner/public/index.html",
+    "posttest": "jshint lib/dr.js test/attributeSpec.js test/commentSpec.js test/fixtureSpec.js test/namespacesSpec.js"
   },
   "author": "Stef Hock (spwhock@gmail.com)",
   "license": "ISC",
@@ -16,6 +17,7 @@
   "devDependencies": {
     "chai": "^3.4.1",
     "connect": "^3.4.0",
+    "jshint": "^2.9.1",
     "livereload": "^0.4.0",
     "mocha": "^2.3.4",
     "mocha-phantomjs": "^4.0.2",
