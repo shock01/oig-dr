@@ -46,8 +46,8 @@ document.addEventListener('DOMContentLoaded', function() {
           var targetElement = target.appendChild(fixture.targetElement());
           var sourceElement = fixture.sourceElement();
           var result = new OIGDomRenderer().render(sourceElement, targetElement);
-          verify(result, sourceElement);
           targetElement.parentNode.removeChild(targetElement);
+          verify(result, sourceElement);
         }, options);
         // OIGDomRenderer shallow
         suite.add('OIGDomRenderer detached shallow: ' + fixture.target, function() {
@@ -67,8 +67,8 @@ document.addEventListener('DOMContentLoaded', function() {
           var result = new OIGDomRenderer().render(sourceElement, targetElement, {
             deep: false
           });
-          verify(result, sourceElement);
           targetElement.parentNode.removeChild(targetElement);
+          verify(result, sourceElement);
         }, options);
         // morphdom
         suite.add('morphdom detached: ' + fixture.target, function() {
@@ -81,8 +81,8 @@ document.addEventListener('DOMContentLoaded', function() {
           var targetElement = target.appendChild(fixture.targetElement());
           var sourceElement = fixture.sourceElement();
           var result = morphdom(targetElement, sourceElement);
-          verify(result, sourceElement);
           targetElement.parentNode.removeChild(targetElement);
+          verify(result, sourceElement);
         }, options);
 
       }())
