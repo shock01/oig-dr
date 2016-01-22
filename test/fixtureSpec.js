@@ -1,6 +1,6 @@
 /* globals console,loadFixture,isHeadless */
 'use strict';
-xdescribe('fixtures', function() {
+describe('fixtures', function() {
   var expect = chai.expect;
   var domRenderer;
 
