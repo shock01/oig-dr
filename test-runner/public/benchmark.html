@@ -19,8 +19,13 @@
        <tbody>
          <% for ( var i = 0; i < data.length; i++ ) { %>
           <% if(typeof i === 'number') { %>
+            <% if(i / 8 === i / 8 >> 0) { %>
+              <tr>
+                <td colspan="3"><a href="?index=<%= i / 8 %>"><b>run only this bench</b></a></td>
+              </tr>
+            <% } %>
             <tr>
-              <td><%=data[i].name%><br><span style="color:red"><%=data[i].error%></span></td>
+              <td><%=data[i].name%></a><br><span style="color:red"><%=data[i].error%></span></td>
               <td><%=data[i].cycles%></td>
               <td><%=data[i].hz.toFixed(3)%></td>
             </tr>

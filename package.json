@@ -6,7 +6,7 @@
   "scripts": {
     "test-server": "node test-runner/runner.js",
     "test": "mocha-phantomjs test-runner/public/index.html",
-    "posttest": "jshint lib/dr.js test/attributeSpec.js test/commentSpec.js test/fixtureSpec.js test/namespacesSpec.js"
+    "posttest": "jshint lib/dr.js test/attributeSpec.js test/commentSpec.js test/childrenSpec.js test/namespacesSpec.js"
   },
   "author": "Stef Hock (spwhock@gmail.com)",
   "license": "ISC",

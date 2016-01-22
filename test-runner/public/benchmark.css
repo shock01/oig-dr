@@ -2,6 +2,12 @@ body, html {
   font: 10pt/1.5 "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
+a,
+a:active,
+a:visited {
+  color: #458879;
+}
+
 .results-table th {
   text-align: left;
 }

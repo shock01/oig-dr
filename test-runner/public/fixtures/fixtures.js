@@ -7,6 +7,10 @@ var fixtures = [{
   source: 'fixtures/large/source.html',
   target: 'fixtures/large/target.html',
   contentType: 'text/html'
+}, {
+  source: 'fixtures/countries/source.html',
+  target: 'fixtures/countries/target.html',
+  contentType: 'text/html'
 }];
 
 function loadTemplate(url, contentType) {
@@ -46,10 +50,14 @@ function loadFixture(fixture) {
       loadTemplate(fixture.target, fixture.contentType)
     ]).then(function(elements) {
       fixture.sourceElement = function() {
-        return elements[0].cloneNode(true);
+        var node = elements[0].cloneNode(true);
+        node.normalize();
+        return node;
       };
       fixture.targetElement = function() {
-        return elements[1].cloneNode(true);
+        var node = elements[1].cloneNode(true);
+        node.normalize();
+        return node;
       };
       resolve(fixture);
     }).catch(reject);

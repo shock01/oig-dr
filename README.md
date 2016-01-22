@@ -11,6 +11,8 @@
 OIG DOMRenderer takes an optional options argument with the following properties
 - **ignoreComments** (default false) - Will remove any comments while rendering from target and skips comments from source
 - **deep** (default true) - When set to true equality of nodes is tested on the element itself and not on it's complete subtree. Each child in the subtree will be parsed again to be able to maintain properties/handlers on elements that have not changed from target to source. If uniqueness of elements is not required it's better to use deep:false for performance reasons
+- **useFragment** (default true) - When set to true will use documentFragments to append multiple childs at once to limit browser repaints/reflows
+- **ignoreText** (default false) - When set will ignore comments and textNode but will set text when node contains no element nodes
 
 ## To run
 

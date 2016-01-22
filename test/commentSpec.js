@@ -9,8 +9,6 @@ describe('comments', function() {
     domRenderer = new OIGDomRenderer();
     source = document.createElement('div');
     target = document.createElement('div');
-    source.ownerDocument.documentElement.setAttributeNS('http://www.w3.org/2000/xmlns/', 'xmlns:xlink', 'http://www.w3.org/1999/xlink');
-    target.ownerDocument.documentElement.setAttributeNS('http://www.w3.org/2000/xmlns/', 'xmlns:xlink', 'http://www.w3.org/1999/xlink');
   });
   it('should add comments', function() {
     var comment = document.createComment('test');
