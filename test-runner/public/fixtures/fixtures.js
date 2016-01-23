@@ -51,12 +51,12 @@ function loadFixture(fixture) {
     ]).then(function(elements) {
       fixture.sourceElement = function() {
         var node = elements[0].cloneNode(true);
-        node.normalize();
+        //node.normalize();
         return node;
       };
       fixture.targetElement = function() {
         var node = elements[1].cloneNode(true);
-        node.normalize();
+        //node.normalize();
         return node;
       };
       resolve(fixture);

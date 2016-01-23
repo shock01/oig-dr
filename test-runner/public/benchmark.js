@@ -69,8 +69,8 @@ document.addEventListener('DOMContentLoaded', function() {
           new OIGDomRenderer().render(sourceElement, targetElement, {
             ignoreText: true
           });
-          //verify(this, result, sourceElement);
           targetElement.parentNode.removeChild(targetElement);
+          //verify(this, targetElement, sourceElement);
         }, options);
         suite.add('OIGDomRenderer attached with fragment: ' + fixture.target, function() {
           var targetElement = target.appendChild(fixture.targetElement());
