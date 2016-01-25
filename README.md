@@ -72,7 +72,7 @@ var targetElement = document.createElement('div');
 targetElement.appendChild(document.createTextNode('a comment'));
 domRenderer.render(targetElement, '<div id="123"><span>hello world!</div>', {flags: OIGDomRenderer.IGNORE_COMMENT});
 // this should change the targetElement to : '<div id="123"><span>hello world!</div>'
-``
+```
 
 
 ## Example using target and sourceSelector
