@@ -11,6 +11,9 @@
 > Is namespace aware so can also be used to render SVG Content or other namespace aware elements.
 
 OIG DOMRenderer takes an optional options argument with the following properties
+- **sourceSelector** - CSS Selector to specify the root sourceElement
+- **targetSelector** - CSS Selector to specify the root targetElement
+
 - **flags** number
 
 ## flags
