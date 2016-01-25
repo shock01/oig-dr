@@ -20,8 +20,7 @@ describe('structure', function() {
 
   function test(title, setUp) {
     [{
-      name: 'default',
-      flags: 0
+      name: 'default'
     }, {
       name: 'shallow',
       flags: OIGDomRenderer.SHALLOW

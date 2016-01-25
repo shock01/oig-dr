@@ -16,7 +16,7 @@ describe('namespaces', function() {
     var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
     source.appendChild(document.importNode(svg, true));
     this.result = domRenderer.render(source, target);
-    expect(target.isEqualNode(source)).to.equal(true);
+    expect(this.result.isEqualNode(source)).to.equal(true);
   });
   it('should return same element when namespaces differ', function() {
     var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
@@ -24,19 +24,19 @@ describe('namespaces', function() {
     // svg no namespace
     target.appendChild(document.createElement('svg'));
     this.result = domRenderer.render(source, target);
-    expect(target.isEqualNode(source)).to.equal(true);
+    expect(this.result.isEqualNode(source)).to.equal(true);
   });
   it('should add the namespace when target is missing namespaceURI', function() {
     source.ownerDocument.documentElement.removeAttributeNS('http://www.w3.org/2000/xmlns/', 'xmlns:xlink');
     source.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', 'dooh');
     target.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', 'yeah');
     this.result = domRenderer.render(source, target);
-    expect(target.isEqualNode(source)).to.equal(true);
+    expect(this.result.isEqualNode(source)).to.equal(true);
   });
   it('should update a namespaced attributes', function() {
     source.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', 'dooh');
     target.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', 'yeah');
     this.result = domRenderer.render(source, target);
-    expect(target.isEqualNode(source)).to.equal(true);
+    expect(this.result.isEqualNode(source)).to.equal(true);
   });
 });

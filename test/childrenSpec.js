@@ -20,6 +20,6 @@ describe('children', function() {
     this.result = domRenderer.render(source, target, {
       flags: OIGDomRenderer.IGNORE_TEXT
     });
-    expect(target.isEqualNode(source)).to.equal(true);
+    expect(this.result.isEqualNode(source)).to.equal(true);
   });
 });

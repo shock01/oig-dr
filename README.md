@@ -73,3 +73,17 @@ targetElement.appendChild(document.createTextNode('a comment'));
 domRenderer.render(targetElement, '<div id="123"><span>hello world!</div>', {flags: OIGDomRenderer.IGNORE_COMMENT});
 // this should change the targetElement to : '<div id="123"><span>hello world!</div>'
 ``
+
+
+## Example using target and sourceSelector
+```
+var domRenderer = new OIGDomRenderer();
+var targetElement = document.createElement('div');
+target.innerHTML = '<div class="container"><div class="content"></div></div><footer>some footer</footer>';
+
+domRenderer.render(targetElement, '<div class="content"><span>hello world!</div>', {
+  sourceSelector: '.content',
+  targetSelector: '.content'
+  });
+// this should change the targetElement to : '<div class="container"><div class="content"><span>hello world!</div></div><footer>some footer</footer>'
+```

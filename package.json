@@ -6,7 +6,7 @@
   "scripts": {
     "test-server": "node test-runner/runner.js",
     "test": "karma start --singleRun",
-    "posttest": "jshint lib/dr.js test/attributeSpec.js test/commentSpec.js test/childrenSpec.js test/namespacesSpec.js",
+    "posttest": "jshint lib/dr.js test/attributeSpec.js test/commentSpec.js test/childrenSpec.js test/namespacesSpec.js test/selectorSpec.js test/structureSpec.js",
     "coveralls": "cat ./coverage/lcov.info | coveralls"
   },
   "author": "Stef Hock (spwhock@gmail.com)",
