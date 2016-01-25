@@ -1,6 +1,7 @@
 # oig-dr
 
 [![Build Status](https://travis-ci.org/shock01/oig-dr.svg?branch=master)](https://travis-ci.org/shock01/oig-dr)
+[![Coverage Status](https://coveralls.io/repos/github/shock01/oig-dr/badge.svg?branch=master)](https://coveralls.io/github/shock01/oig-dr?branch=master)
 
 ## Info
 
