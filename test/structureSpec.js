@@ -12,12 +12,33 @@ describe('structure', function() {
     target = this.target = document.createElement('div');
   });
 
+  afterEach(function() {
+    if (target.parentNode) {
+      target.parentNode.removeChild(target);
+    }
+  });
+
   function test(title, setUp) {
-    [true, false].forEach(function(deep) {
-      it(title + ', deep:' + deep, function() {
+    [{
+      name: 'default',
+      flags: 0
+    }, {
+      name: 'shallow',
+      flags: OIGDomRenderer.SHALLOW
+    }, {
+      name: 'fragment',
+      flags: OIGDomRenderer.USE_FRAGMENT
+    }, {
+      name: 'shallow fragment',
+      flags: OIGDomRenderer.USE_FRAGMENT | OIGDomRenderer.SHALLOW
+    }].forEach(function(data) {
+      it('[' + data.name + '] ' + title, function() {
+        if (data.flags & OIGDomRenderer.USE_FRAGMENT) {
+          target.ownerDocument.documentElement.appendChild(target);
+        }
         setUp();
         var result = domRenderer.render(source, target, {
-          deep: deep
+          flags: data.flags
         });
         if (!isHeadless) {
           console.info(source.outerHTML);

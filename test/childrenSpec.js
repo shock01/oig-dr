@@ -18,7 +18,7 @@ describe('children', function() {
     element.textContent = 'test';
     source.appendChild(element);
     this.result = domRenderer.render(source, target, {
-      ignoreText: true
+      flags: OIGDomRenderer.IGNORE_TEXT
     });
     expect(target.isEqualNode(source)).to.equal(true);
   });

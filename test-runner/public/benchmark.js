@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', function() {
           var targetElement = target.appendChild(fixture.targetElement());
           var sourceElement = fixture.sourceElement();
           var result = new OIGDomRenderer().render(sourceElement, targetElement, {
-            useFragment: true
+            flags: OIGDomRenderer.USE_FRAGMENT
           });
           targetElement.parentNode.removeChild(targetElement);
           verify(this, result, sourceElement);
@@ -67,7 +67,7 @@ document.addEventListener('DOMContentLoaded', function() {
           var targetElement = target.appendChild(fixture.targetElement());
           var sourceElement = fixture.sourceElement();
           new OIGDomRenderer().render(sourceElement, targetElement, {
-            ignoreText: true
+            flags: OIGDomRenderer.IGNORE_TEXT
           });
           targetElement.parentNode.removeChild(targetElement);
           //verify(this, targetElement, sourceElement);
@@ -84,7 +84,7 @@ document.addEventListener('DOMContentLoaded', function() {
           var sourceElement = fixture.sourceElement();
           var targetElement = fixture.targetElement();
           var result = new OIGDomRenderer().render(sourceElement, targetElement, {
-            deep: false
+            flags: OIGDomRenderer.SHALLOW
           });
           verify(this, result, sourceElement);
         }, options);
@@ -92,7 +92,7 @@ document.addEventListener('DOMContentLoaded', function() {
           var targetElement = target.appendChild(fixture.targetElement());
           var sourceElement = fixture.sourceElement();
           var result = new OIGDomRenderer().render(sourceElement, targetElement, {
-            deep: false
+            flags: OIGDomRenderer.SHALLOW
           });
           targetElement.parentNode.removeChild(targetElement);
           verify(this, result, sourceElement);

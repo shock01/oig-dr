@@ -36,7 +36,25 @@ describe('comments', function() {
     source.appendChild(sourceComment);
     target.appendChild(targetComment);
     this.result = domRenderer.render(source, target, {
-      ignoreComments: true
+      flags: OIGDomRenderer.IGNORE_COMMENT
+    });
+    expect(target.childNodes.length).to.equal(0);
+  });
+
+  it('should ignore source comments', function() {
+    var sourceComment = document.createComment('hello');
+    source.appendChild(sourceComment);
+    this.result = domRenderer.render(source, target, {
+      flags: OIGDomRenderer.IGNORE_COMMENT
+    });
+    expect(target.childNodes.length).to.equal(0);
+  });
+
+  it('should ignore target comments', function() {
+    var targetComment = document.createComment('world');
+    target.appendChild(targetComment);
+    this.result = domRenderer.render(source, target, {
+      flags: OIGDomRenderer.IGNORE_COMMENT
     });
     expect(target.childNodes.length).to.equal(0);
   });
