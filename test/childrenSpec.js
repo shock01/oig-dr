@@ -1,4 +1,3 @@
-/* globals console*/
 'use strict';
 /**
 * ignoreText will not work when appended to DOM because then the normalize method will not work
@@ -21,8 +20,6 @@ describe('children', function() {
     this.result = domRenderer.render(source, target, {
       ignoreText: true
     });
-    console.debug(source.outerHTML);
-    console.log(target.outerHTML);
     expect(target.isEqualNode(source)).to.equal(true);
   });
 });
