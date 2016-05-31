@@ -90,3 +90,23 @@ domRenderer.render(targetElement, '<div class="content"><span>hello world!</div>
   });
 // this should change the targetElement to : '<div class="container"><div class="content"><span>hello world!</div></div><footer>some footer</footer>'
 ```
+
+## Example doing a partial SVG update with namespaced attribute
+```
+<svg xmlns:xlink="http://www.w3.org/1999/xlink">
+  <use/>
+</svg>
+
+var domRenderer = new OIGDomRenderer();
+var targetElement = document.querySelector('svg');
+var source = '<use xlink:href="#test">';
+
+domRenderer.render(targetElement, source, {
+  targetSelector: 'use'
+  });
+// this should change the targetElement to :
+<svg xmlns:xlink="http://www.w3.org/1999/xlink">
+  <use xlink:href="#test"/>
+</svg>
+
+```
