@@ -24,6 +24,8 @@ if (!isHeadless) {
       console.log('result', this.currentTest.ctx.target.outerHTML);
     }
     console.groupEnd();
+    var state = this.currentTest.state;
+    console.log('%c%s', 'color:' + (state === 'passed' ? 'green' : 'red'), state.toUpperCase());
   });
 } else {
 

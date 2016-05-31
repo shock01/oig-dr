@@ -39,4 +39,20 @@ describe('namespaces', function() {
     this.result = domRenderer.render(source, target);
     expect(this.result.isEqualNode(source)).to.equal(true);
   });
+  it('should update partial svg', function() {
+    var source = '<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="blaat"></use>';
+    var target = new DOMParser().parseFromString('<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><use/></svg>', 'text/xml').documentElement;
+    this.result = domRenderer.render(source, target, {
+      targetSelector: 'use'
+    });
+    expect(target.querySelector('use').getAttributeNS('http://www.w3.org/1999/xlink', 'href')).to.equal('blaat');
+  });
+  it('should update partial svg when namespace is not provided', function() {
+    var source = '<use xlink:href="blaat"></use>';
+    var target = new DOMParser().parseFromString('<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><use/></svg>', 'text/xml').documentElement;
+    this.result = domRenderer.render(source, target, {
+      targetSelector: 'use'
+    });
+    expect(target.querySelector('use').getAttributeNS('http://www.w3.org/1999/xlink', 'href')).to.equal('blaat');
+  });
 });
