@@ -17,7 +17,6 @@ OIG DOMRenderer takes an optional options argument with the following properties
 - **flags** number
 
 ## flags
-- OIGDomRenderer.SHALLOW - will clone a complete node and will not traverse children
 - OIGDomRenderer.IGNORE_COMMENT - will not parse comments from sourceElement and will remove comments from targetElement
 - OIGDomRenderer.IGNORE_TEXT - will not parse comments and will not parse elements for textNodes. Only direct textContent will be added to targetElement
 - OIGDomRenderer.USE_FRAGMENT - will use documentFragments for appending new elements to the targetElement or it's children
