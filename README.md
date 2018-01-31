@@ -47,7 +47,7 @@ void render(source: element|string, target:element, options?: Options)
 ```
 var domRenderer = new OIGDomRenderer();
 var targetElement = document.createElement('div');
-domRenderer.render(targetElement, '<div id="123"><span>hello world!</div>');
+domRenderer.render('<div id="123"><span>hello world!</div>', targetElement);
 // this should change the targetElement to : '<div id="123"><span>hello world!</div>'
 ```
 
@@ -55,7 +55,7 @@ domRenderer.render(targetElement, '<div id="123"><span>hello world!</div>');
 ```
 var domRenderer = new OIGDomRenderer();
 var targetElement = document.createElement('div');
-domRenderer.render(targetElement, '<div id="123"><!--test--><span>hello world!</div>', {flags: OIGDomRenderer.IGNORE_TEXT});
+domRenderer.render('<div id="123"><!--test--><span>hello world!</div>', targetElement, {flags: OIGDomRenderer.IGNORE_TEXT});
 // this should change the targetElement to : '<div id="123"><span>hello world!</div>'
 ```
 
@@ -63,7 +63,7 @@ domRenderer.render(targetElement, '<div id="123"><!--test--><span>hello world!</
 ```
 var domRenderer = new OIGDomRenderer();
 var targetElement = document.createElement('div');
-domRenderer.render(targetElement, '<div id="123"><!--test--><span>hello world!</div>', {flags: OIGDomRenderer.IGNORE_TEXT | OIGDomRenderer.USE_FRAGMENT});
+domRenderer.render('<div id="123"><!--test--><span>hello world!</div>', targetElement, {flags: OIGDomRenderer.IGNORE_TEXT | OIGDomRenderer.USE_FRAGMENT});
 // this should change the targetElement to : '<div id="123"><span>hello world!</div>'
 ```
 
@@ -72,7 +72,7 @@ domRenderer.render(targetElement, '<div id="123"><!--test--><span>hello world!</
 var domRenderer = new OIGDomRenderer();
 var targetElement = document.createElement('div');
 targetElement.appendChild(document.createTextNode('a comment'));
-domRenderer.render(targetElement, '<div id="123"><span>hello world!</div>', {flags: OIGDomRenderer.IGNORE_COMMENT});
+domRenderer.render('<div id="123"><span>hello world!</div>', targetElement, {flags: OIGDomRenderer.IGNORE_COMMENT});
 // this should change the targetElement to : '<div id="123"><span>hello world!</div>'
 ```
 
@@ -83,7 +83,7 @@ var domRenderer = new OIGDomRenderer();
 var targetElement = document.createElement('div');
 target.innerHTML = '<div class="container"><div class="content"></div></div><footer>some footer</footer>';
 
-domRenderer.render(targetElement, '<div class="content"><span>hello world!</div>', {
+domRenderer.render('<div class="content"><span>hello world!</div>', targetElement, {
   sourceSelector: '.content',
   targetSelector: '.content'
   });
@@ -100,7 +100,7 @@ var domRenderer = new OIGDomRenderer();
 var targetElement = document.querySelector('svg');
 var source = '<use xlink:href="#test">';
 
-domRenderer.render(targetElement, source, {
+domRenderer.render(source, targetElement, {
   targetSelector: 'use'
   });
 // this should change the targetElement to :
